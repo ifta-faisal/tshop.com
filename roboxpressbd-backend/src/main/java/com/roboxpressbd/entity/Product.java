@@ -22,10 +22,10 @@ public class Product {
     @Column(nullable = false, unique = true, length = 280)
     private String slug;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String description;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String specifications;
 
     @Column(nullable = false, precision = 12, scale = 2)
