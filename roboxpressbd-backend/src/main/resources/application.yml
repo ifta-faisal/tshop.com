@@ -7,7 +7,7 @@ spring:
   application:
     name: roboxpressbd-backend
   datasource:
-    url: jdbc:mysql://localhost:3306/roboxpressbd?useSSL=false&serverTimezone=Asia/Dhaka&allowPublicKeyRetrieval=true
+    url: ${DB_URL:jdbc:mysql://localhost:3306/roboxpressbd?useSSL=false&serverTimezone=Asia/Dhaka&allowPublicKeyRetrieval=true}
     username: ${DB_USER:root}
     password: ${DB_PASS:}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -40,4 +40,4 @@ app:
     secret: ${JWT_SECRET:change-me-please-use-a-very-long-random-secret-key-256bit-minimum}
     expiration-ms: 86400000
   cors:
-    allowed-origins: http://localhost:5173,http://localhost:3000
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}

@@ -242,7 +242,7 @@ export default function AdminProducts() {
         {loading ? (
           <div className="py-12 text-center text-slate-500">Loading products...</div>
         ) : (
-          <div className="border border-slate-200 rounded overflow-hidden">
+          <div className="border border-slate-200 rounded overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-700 bg-white">
               <thead className="bg-[#f4f4f4] border-b border-slate-200 text-slate-600 font-bold text-xs">
                 <tr>

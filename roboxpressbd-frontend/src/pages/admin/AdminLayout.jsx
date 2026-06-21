@@ -46,7 +46,7 @@ export default function AdminLayout() {
             <p className="text-slate-500 mt-1 text-sm">Welcome back, Administrator.</p>
           </div>
           
-          <div className="flex gap-3">
+          <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 md:pb-0">
             <Link to="/admin/products" className={tabClass('/admin/products')}>Products</Link>
             <Link to="/admin/orders" className={tabClass('/admin/orders')}>Orders</Link>
             <Link to="/admin/tools" className={tabClass('/admin/tools')}>Tools</Link>

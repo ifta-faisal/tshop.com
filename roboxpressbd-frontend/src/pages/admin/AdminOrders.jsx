@@ -39,8 +39,8 @@ export default function AdminOrders() {
           No orders found.
         </div>
       ) : (
-        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
-          <table className="w-full text-left border-collapse">
+        <div className="border border-slate-200 rounded overflow-x-auto">
+          <table className="w-full text-left text-sm text-slate-700 bg-white">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-wider">
                 <th className="px-6 py-4">ORDER ID</th>

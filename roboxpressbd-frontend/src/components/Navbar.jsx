@@ -167,13 +167,20 @@ export default function Navbar() {
 
 
       {/* ── Main bar ── */}
-      <div className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4">
+      <div className="bg-white relative z-20">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center gap-4 justify-between md:justify-start">
+
+          {/* Mobile Hamburger */}
+          <button className="md:hidden p-1 text-slate-800" onClick={() => { setCatOpen(o => !o); setExpandedCat(null) }}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
 
           {/* Logo */}
           <Link to="/" className="shrink-0 flex items-center gap-2">
-            <div className="w-10 h-10 flex items-center justify-center border-2 border-slate-700 rounded">
-              <svg viewBox="0 0 32 32" fill="none" className="w-7 h-7">
+            <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-2 border-slate-700 rounded">
+              <svg viewBox="0 0 32 32" fill="none" className="w-5 h-5 md:w-7 md:h-7">
                 <rect x="4" y="4" width="10" height="10" rx="1" fill="none" stroke="#1a2a4f" strokeWidth="2"/>
                 <rect x="18" y="4" width="10" height="10" rx="1" fill="none" stroke="#1a2a4f" strokeWidth="2"/>
                 <rect x="4" y="18" width="10" height="10" rx="1" fill="none" stroke="#1a2a4f" strokeWidth="2"/>
@@ -185,15 +192,15 @@ export default function Navbar() {
               </svg>
             </div>
             <div className="leading-tight">
-              <div className="font-extrabold text-xl tracking-tight leading-none" style={{ color: '#1a2a4f' }}>
+              <div className="font-extrabold text-lg md:text-xl tracking-tight leading-none" style={{ color: '#1a2a4f' }}>
                 ROBOX<span style={{ color: '#16a34a' }}>PRESS</span>
               </div>
-              <div className="text-[10px] text-slate-400 font-normal tracking-wide mt-0.5">bd.com</div>
+              <div className="text-[9px] md:text-[10px] text-slate-400 font-normal tracking-wide mt-0.5">bd.com</div>
             </div>
           </Link>
 
-          {/* Search bar */}
-          <div className="flex flex-1 max-w-2xl mx-auto relative" ref={searchRef}>
+          {/* Desktop Search bar */}
+          <div className="hidden md:flex flex-1 max-w-2xl mx-auto relative" ref={searchRef}>
             <form onSubmit={onSearch}
               className="flex w-full border border-black rounded-full overflow-hidden relative z-50 bg-white">
               <input
@@ -259,12 +266,12 @@ export default function Navbar() {
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-5 text-sm text-slate-800 shrink-0">
+          <div className="flex items-center gap-3 md:gap-5 text-sm text-slate-800 shrink-0">
             {user ? (
               <div className="relative" ref={userRef}>
                 <button onClick={() => setUserOpen(o => !o)}
                   className="flex items-center gap-1.5 hover:text-blue-700 transition">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
                       d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
                   </svg>
@@ -294,7 +301,7 @@ export default function Navbar() {
             ) : (
               <Link to="/login"
                 className="flex items-center gap-1.5 hover:text-blue-700 transition font-normal">
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 md:w-4 md:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
                     d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
                 </svg>
@@ -347,10 +354,27 @@ export default function Navbar() {
             </div>
           </div>
         </div>
+        
+        {/* Mobile Search bar */}
+        <div className="md:hidden px-4 pb-3">
+          <form onSubmit={onSearch} className="flex w-full border border-slate-300 rounded overflow-hidden bg-slate-50">
+            <input
+              value={q}
+              onChange={e => setQ(e.target.value)}
+              placeholder="Search for Products"
+              className="flex-1 px-3 py-2 text-sm focus:outline-none bg-transparent"
+            />
+            <button type="submit" className="px-4 flex items-center justify-center bg-black hover:bg-gray-800">
+              <svg className="w-4 h-4" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
+          </form>
+        </div>
       </div>
 
-      {/* ── Sub-nav bar ── */}
-      <div className="bg-white border-t border-slate-200 shadow-sm">
+      {/* ── Sub-nav bar (Desktop only) ── */}
+      <div className="hidden md:block bg-white border-t border-slate-200 shadow-sm relative z-10">
         <div className="max-w-7xl mx-auto px-4 flex items-stretch relative" style={{ height: '46px' }}>
           <nav className="flex items-center flex-1 justify-between">
             {NAV_LINKS.map(l => {
@@ -465,6 +489,17 @@ export default function Navbar() {
               .cat-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
               .cat-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
             `}</style>
+            
+            {/* Mobile Nav Links */}
+            <div className="md:hidden border-b border-slate-200 mb-2 pb-2">
+              {NAV_LINKS.filter(l => l.label !== 'PRODUCT CATEGORIES').map(l => (
+                <Link key={l.label} to={l.to} onClick={() => { setCatOpen(false); setExpandedCat(null) }}
+                  className="flex items-center justify-between px-4 py-3 text-[13px] font-bold tracking-wide text-slate-800 hover:text-blue-600 transition">
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+
             {categories.map(cat => (
               <button
                 key={cat.name}
