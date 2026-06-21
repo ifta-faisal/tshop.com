@@ -38,7 +38,6 @@ public class CsvImportService {
         this.brandRepository = brandRepository;
     }
 
-    @Transactional
     public void importCsv(MultipartFile file) throws Exception {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
              CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
