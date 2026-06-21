@@ -88,9 +88,17 @@ public class CsvImportService {
                     imageUrl = imageUrl.substring(0, 500);
                 }
 
-                // Parse Category
+                // Parse Categories
                 String categoriesStr = csvRecord.isSet("Categories") ? csvRecord.get("Categories") : "Uncategorized";
-                Category category = getOrCreateCategory(categoriesStr);
+                java.util.Set<Category> productCategories = new java.util.HashSet<>();
+                for (String catStr : categoriesStr.split(",")) {
+                    if (!catStr.trim().isEmpty()) {
+                        productCategories.add(getOrCreateCategory(catStr.trim()));
+                    }
+                }
+                if (productCategories.isEmpty()) {
+                    productCategories.add(getOrCreateCategory("Uncategorized"));
+                }
 
                 // Parse Brand
                 String brandsStr = csvRecord.isSet("Brands") ? csvRecord.get("Brands") : null;
@@ -121,7 +129,7 @@ public class CsvImportService {
                 product.setOldPrice(oldPrice);
                 product.setStock(stock);
                 product.setImageUrl(imageUrl);
-                product.setCategory(category);
+                product.setCategories(productCategories);
                 product.setBrand(brand);
                 product.setDescription(desc);
                 product.setSpecifications(shortDesc);
@@ -144,9 +152,7 @@ public class CsvImportService {
         return null;
     }
 
-    private Category getOrCreateCategory(String categoriesStr) {
-        // e.g. "Brands > T-Motor, Motors"
-        String firstCat = categoriesStr.split(",")[0].trim();
+    private Category getOrCreateCategory(String firstCat) {
         if (firstCat.contains(">")) {
             String[] parts = firstCat.split(">");
             firstCat = parts[parts.length - 1].trim();

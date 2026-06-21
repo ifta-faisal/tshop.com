@@ -9,6 +9,7 @@ import com.roboxpressbd.repository.OrderRepository;
 import com.roboxpressbd.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.concurrent.CompletableFuture;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,19 +22,42 @@ public class OrderService {
     private final CartItemRepository cartRepository;
     private final ProductRepository productRepository;
     private final CurrentUser currentUser;
+    private final InvoiceService invoiceService;
+    private final EmailService emailService;
 
     public OrderService(OrderRepository orderRepository, CartItemRepository cartRepository,
-                        ProductRepository productRepository, CurrentUser currentUser) {
+                        ProductRepository productRepository, CurrentUser currentUser,
+                        InvoiceService invoiceService, EmailService emailService) {
         this.orderRepository = orderRepository;
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
         this.currentUser = currentUser;
+        this.invoiceService = invoiceService;
+        this.emailService = emailService;
     }
 
     @Transactional
     public OrderDtos.OrderResponse checkout(OrderDtos.CheckoutRequest req) {
-        User user = currentUser.get();
-        List<CartItem> items = cartRepository.findByUser(user);
+        User user = null;
+        try {
+            user = currentUser.get();
+        } catch (Exception e) {} // Guest checkout fallback
+
+        List<CartItem> items;
+        if (user != null) {
+            items = cartRepository.findByUser(user);
+        } else {
+            if (req.guestItems() == null || req.guestItems().isEmpty()) throw new ApiException("Cart is empty");
+            items = new java.util.ArrayList<>();
+            for (OrderDtos.GuestCartItem gi : req.guestItems()) {
+                Product p = productRepository.findById(gi.productId())
+                        .orElseThrow(() -> new ApiException("Product not found"));
+                CartItem ci = new CartItem();
+                ci.setProduct(p);
+                ci.setQuantity(gi.quantity());
+                items.add(ci);
+            }
+        }
         if (items.isEmpty()) throw new ApiException("Cart is empty");
 
         BigDecimal total = BigDecimal.ZERO;
@@ -41,7 +65,7 @@ public class OrderService {
                 .user(user)
                 .orderNumber("RX-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase())
                 .customerName(req.customerName())
-                .customerEmail(user.getEmail())
+                .customerEmail(user != null ? user.getEmail() : req.customerEmail())
                 .customerPhone(req.customerPhone())
                 .shippingAddress(req.shippingAddress())
                 .paymentMethod(req.paymentMethod() == null ? "COD" : req.paymentMethod())
@@ -56,7 +80,12 @@ public class OrderService {
             p.setStock(p.getStock() - ci.getQuantity());
             productRepository.save(p);
 
-            BigDecimal line = p.getPrice().multiply(BigDecimal.valueOf(ci.getQuantity()));
+            BigDecimal activePrice = p.getPrice();
+            if (p.isFlashSaleEnabled() && p.getFlashSaleEndDate() != null && p.getFlashSaleEndDate().isAfter(java.time.Instant.now())) {
+                activePrice = p.getFlashSalePrice() != null ? p.getFlashSalePrice() : activePrice;
+            }
+
+            BigDecimal line = activePrice.multiply(BigDecimal.valueOf(ci.getQuantity()));
             total = total.add(line);
 
             OrderItem oi = OrderItem.builder()
@@ -65,14 +94,29 @@ public class OrderService {
                     .productName(p.getName())
                     .productSlug(p.getSlug())
                     .productImage(p.getImageUrl())
-                    .unitPrice(p.getPrice())
+                    .unitPrice(activePrice)
                     .quantity(ci.getQuantity())
                     .build();
             order.getItems().add(oi);
         }
         order.setTotalAmount(total);
         order = orderRepository.save(order);
-        cartRepository.deleteByUser(user);
+        
+        if (user != null) {
+            cartRepository.deleteByUser(user);
+        }
+
+        // Asynchronously generate and send invoice
+        final Order savedOrder = order;
+        CompletableFuture.runAsync(() -> {
+            try {
+                byte[] pdf = invoiceService.generateInvoicePdf(savedOrder);
+                emailService.sendInvoiceEmail(savedOrder.getCustomerEmail(), savedOrder.getOrderNumber(), pdf);
+            } catch (Exception e) {
+                System.err.println("Failed to process invoice email async: " + e.getMessage());
+            }
+        });
+
         return toResponse(order);
     }
 
@@ -88,6 +132,19 @@ public class OrderService {
         if (!order.getUser().getId().equals(me.getId()) && !me.getRoles().contains("ROLE_ADMIN")) {
             throw new ApiException("Forbidden");
         }
+        return toResponse(order);
+    }
+
+    public List<OrderDtos.OrderResponse> getAllOrders() {
+        return orderRepository.findAllByOrderByCreatedAtDesc()
+                .stream().map(this::toResponse).toList();
+    }
+
+    public OrderDtos.OrderResponse updateOrderStatus(Long orderId, String status) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ApiException("Order not found"));
+        order.setStatus(status);
+        order = orderRepository.save(order);
         return toResponse(order);
     }
 

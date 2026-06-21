@@ -14,9 +14,13 @@ export default function Login() {
     e.preventDefault()
     setBusy(true)
     try {
-      await login(form)
+      const res = await login(form)
       toast.success('Welcome back!')
-      navigate(location.state?.from?.pathname || '/')
+      if (res.roles?.includes('ROLE_ADMIN')) {
+        navigate('/admin/products')
+      } else {
+        navigate(location.state?.from?.pathname || '/')
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed')
     } finally { setBusy(false) }

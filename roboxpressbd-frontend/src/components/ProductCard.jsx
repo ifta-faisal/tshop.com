@@ -8,9 +8,15 @@ export default function ProductCard({ product }) {
   const { add, isAuthed } = useCart()
   const onSale = product.oldPrice && Number(product.oldPrice) > Number(product.price)
 
+  // Check if flash sale is active
+  const isFlashSale = product.flashSaleEnabled && product.flashSaleEndDate && new Date(product.flashSaleEndDate).getTime() > new Date().getTime()
+  
+  // Active Price logic
+  const currentPrice = isFlashSale ? product.flashSalePrice : product.price
+  const displayOldPrice = isFlashSale ? product.price : product.oldPrice
+
   const onAdd = async () => {
-    if (!isAuthed) { toast.error('Please sign in to add items to cart'); return }
-    try { await add(product.id, 1); toast.success('Added to cart') }
+    try { await add(product.id, 1, product); toast.success('Added to cart') }
     catch (e) { toast.error(e.response?.data?.message || 'Failed to add') }
   }
 
@@ -20,6 +26,11 @@ export default function ProductCard({ product }) {
       <Link to={`/product/${product.slug}`}
         className="block relative overflow-hidden card-watermark"
         style={{ aspectRatio: '1/1', background: '#f8fafc' }}>
+        {isFlashSale && (
+          <div className="absolute top-2 left-2 z-20 bg-pink-600 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">
+            FLASH SALE
+          </div>
+        )}
         {product.imageUrl
           ? <img src={product.imageUrl} alt={product.name}
               className="w-full h-full object-contain p-3 relative z-10"
@@ -43,14 +54,14 @@ export default function ProductCard({ product }) {
         </Link>
 
         {/* Price */}
-        <div className="mt-2 font-semibold text-[14px]" style={{ color: '#2563eb' }}>
-          {fmt(product.price)}
+        <div className="mt-2 font-semibold text-[14px] flex flex-col items-center gap-1">
+          <span className={`text-lg font-bold ${isFlashSale ? 'text-pink-600' : 'text-slate-900'}`}>৳{Number(currentPrice).toLocaleString()}</span>
+          {displayOldPrice && Number(displayOldPrice) > Number(currentPrice) && (
+            <span className="text-xs text-slate-400 line-through">
+              ৳{Number(displayOldPrice).toLocaleString()}
+            </span>
+          )}
         </div>
-
-        {/* Old price */}
-        {onSale && (
-          <div className="text-xs text-slate-400 line-through">{fmt(product.oldPrice)}</div>
-        )}
       </div>
     </div>
   )

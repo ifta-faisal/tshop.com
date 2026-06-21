@@ -10,7 +10,7 @@ export default function ProductCarousel({ title, fetcher, viewAllHref }) {
     if (fetcher) fetcher().then(setItems).catch(() => {})
   }, [fetcher])
 
-  const scroll = (dir) => ref.current?.scrollBy({ left: dir * 880, behavior: 'smooth' })
+  const scroll = (dir) => ref.current?.scrollBy({ left: dir * ref.current.clientWidth, behavior: 'smooth' })
 
   if (!items.length) return null
 
@@ -43,8 +43,7 @@ export default function ProductCarousel({ title, fetcher, viewAllHref }) {
         <div ref={ref} className="flex gap-3 overflow-x-auto no-scrollbar">
           {items.map(p => (
             <div key={p.id}
-              className="flex-shrink-0"
-              style={{ minWidth: '175px', maxWidth: '175px' }}>
+              className="flex-shrink-0 w-[calc((100%-0.75rem)/2)] md:w-[calc((100%-2.25rem)/4)] lg:w-[calc((100%-3.75rem)/6)]">
               <ProductCard product={p} />
             </div>
           ))}

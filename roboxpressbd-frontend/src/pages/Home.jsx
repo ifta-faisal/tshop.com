@@ -62,18 +62,25 @@ export default function Home() {
       {/* ── Content area ── */}
       <div className="max-w-7xl mx-auto px-4 py-5 space-y-4">
 
-        {/* Top Selling */}
+        {/* Top Selling Products */}
         <ProductCarousel
-          title="Top Selling "
+          title="Top Selling Products"
           fetcher={Catalog.featured}
           viewAllHref="/products?sort=newest"
         />
 
-        {/* Summer Cool Collection */}
+        {/* Electronics Products */}
         <ProductCarousel
-          title="Summer Cool Collection "
-          fetcher={Catalog.backInStock}
-          viewAllHref="/products?sort=newest"
+          title="Electronics Products"
+          fetcher={() => Catalog.products({ category: 'sensors', size: 10 }).then(r => r.content.length ? r.content : Catalog.featured())}
+          viewAllHref="/products?category=sensors"
+        />
+
+        {/* Drone Accessories */}
+        <ProductCarousel
+          title="Drone Accessories"
+          fetcher={() => Catalog.products({ category: 'fpv', size: 10 }).then(r => r.content.length ? r.content : Catalog.trending())}
+          viewAllHref="/products?category=fpv"
         />
 
         {/* PROMOTION banner */}
@@ -87,18 +94,18 @@ export default function Home() {
           </Link>
         )}
 
-        {/* New Arrivals */}
+        {/* 3D Printer & Accessories */}
         <ProductCarousel
-          title="New Arrivals "
-          fetcher={Catalog.newArrivals}
-          viewAllHref="/products?sort=newest"
+          title="3D Printer & Accessories"
+          fetcher={() => Catalog.products({ category: '3d-printer', size: 10 }).then(r => r.content.length ? r.content : Catalog.newArrivals())}
+          viewAllHref="/products?category=3d-printer"
         />
 
-        {/* Trending Now */}
+        {/* Battery & Charger */}
         <ProductCarousel
-          title="Trending Now "
-          fetcher={Catalog.trending}
-          viewAllHref="/products?sort=newest"
+          title="Battery & Charger"
+          fetcher={() => Catalog.products({ category: 'chargers-power-supply', size: 10 }).then(r => r.content.length ? r.content : Catalog.backInStock())}
+          viewAllHref="/products?category=chargers-power-supply"
         />
 
         {/* ── Popular Categories ── */}
@@ -187,13 +194,13 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-6">
-            <button
+            <Link to="/brands"
               className="inline-block text-sm px-6 py-1.5 rounded font-medium transition"
               style={{ border: '1px solid #2563eb', color: '#2563eb', background: 'transparent' }}
               onMouseEnter={e => { e.currentTarget.style.background='#2563eb'; e.currentTarget.style.color='#fff' }}
               onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='#2563eb' }}>
               View All
-            </button>
+            </Link>
           </div>
         </section>
 

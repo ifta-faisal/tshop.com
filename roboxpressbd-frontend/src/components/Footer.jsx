@@ -8,21 +8,55 @@ export default function Footer() {
     <footer className="mt-0">
 
       {/* ── Benefits band — white bg with dark icons (matches TechShopBD) ── */}
-      <div className="bg-white border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {[
-            { icon: '💵', title: 'Cash on Delivery', sub: 'Pay cash at your doorstep' },
-            { icon: '🚚', title: 'Delivery', sub: 'All over Bangladesh' },
-            { icon: '🔄', title: 'Extended Warranty', sub: 'Up to 1 year' },
-          ].map(b => (
-            <div key={b.title} className="flex items-center gap-4">
-              <span className="text-3xl">{b.icon}</span>
-              <div>
-                <div className="font-semibold text-slate-800 text-sm">{b.title}</div>
-                <div className="text-xs text-slate-500">{b.sub}</div>
-              </div>
+      <div className="bg-white border-t border-slate-200 py-10">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          
+          <div className="flex items-center gap-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a4.64 4.64 0 01-5.96-5.96m5.96 5.96l-8.48 8.48-1.42-1.42 8.48-8.48M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7s-8.268-2.943-9.542-7z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5L21 3" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-3 3" />
+            </svg>
+            <div>
+              <div className="font-semibold text-slate-800 text-[15px] leading-tight">Free Domestic Shipping</div>
+              <div className="text-[13px] text-slate-500 mt-1">When you spend $80+</div>
             </div>
-          ))}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 12.75V22.5" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 2.25L3 7.5m18 0l-9-5.25" />
+            </svg>
+            <div>
+              <div className="font-semibold text-slate-800 text-[15px] leading-tight">Same-Day Shipping</div>
+              <div className="text-[13px] text-slate-500 mt-1">Mon-Fri til 3pm PST, Sat til 12pm PST</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75v-4.5m0 4.5h4.5m-4.5 0l6-6m-3 18c-8.284 0-15-6.716-15-15V4.5A2.25 2.25 0 014.5 2.25h1.372c.516 0 .966.351 1.091.852l1.106 4.423c.11.44-.054.902-.417 1.173l-1.293.97a1.062 1.062 0 00-.38 1.21 12.035 12.035 0 007.143 7.143c.441.162.928-.004 1.21-.38l.97-1.293a1.125 1.125 0 011.173-.417l4.423 1.106c.5.125.852.575.852 1.091V19.5a2.25 2.25 0 01-2.25 2.25h-2.25z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11.25a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            </svg>
+            <div>
+              <div className="font-semibold text-slate-800 text-[15px] leading-tight">Customer Support</div>
+              <div className="text-[13px] text-slate-500 mt-1">Industry Leading Support</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15" />
+            </svg>
+            <div>
+              <div className="font-semibold text-slate-800 text-[15px] leading-tight">Best Prices</div>
+              <div className="text-[13px] text-slate-500 mt-1">Price Match Guarantee</div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -118,8 +152,20 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-slate-700 text-center text-xs py-3 text-slate-500">
-          © 2024–2026 RoboXpressBD. All Rights Reserved. | Empowering Innovations in Bangladesh
+        <div className="bg-[#f1f1f1] py-3 text-gray-700">
+          <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-[13px] gap-4 font-medium">
+            <div>
+              © 2020-2026 RoboXpressBD - All Rights Reserved.
+            </div>
+            <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center opacity-90">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-[14px] object-contain" />
+              <img src="/payment-visa.png" alt="Visa" className="h-[14px] object-contain" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-[16px] object-contain" />
+              <img src="https://www.logo.wine/a/logo/BKash/BKash-Logo.wine.svg" alt="bKash" className="h-[20px] object-contain -ml-1" />
+              <img src="https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png" alt="Nagad" className="h-[24px] object-contain -ml-1" />
+              <img src="/payment-rocket.png" alt="Rocket" className="h-[16px] object-contain" />
+            </div>
+          </div>
         </div>
       </div>
     </footer>

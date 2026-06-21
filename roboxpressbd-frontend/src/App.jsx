@@ -11,27 +11,54 @@ import Signup from './pages/Signup.jsx'
 import Account from './pages/Account.jsx'
 import OrderSuccess from './pages/OrderSuccess.jsx'
 import NotFound from './pages/NotFound.jsx'
+import PrintingHub from './pages/PrintingHub.jsx'
+import Brands from './pages/Brands.jsx'
+import Deals from './pages/Deals.jsx'
 import RequireAuth from './components/RequireAuth.jsx'
+import FloatingWidgets from './components/FloatingWidgets.jsx'
+
+// Admin Components
+import AdminLayout from './pages/admin/AdminLayout.jsx'
+import AdminProducts from './pages/admin/AdminProducts.jsx'
+import AdminOrders from './pages/admin/AdminOrders.jsx'
+import AdminTools from './pages/admin/AdminTools.jsx'
 
 export default function App() {
   return (
-    <div className="min-h-full flex flex-col">
-      <Navbar />
-      <main className="flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/product/:slug" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
-          <Route path="/account" element={<RequireAuth><Account /></RequireAuth>} />
-          <Route path="/order/:orderNumber" element={<RequireAuth><OrderSuccess /></RequireAuth>} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      <Footer />
-    </div>
+    <Routes>
+      {/* Admin Routes (Separate Layout) */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<div className="text-2xl font-bold">Welcome to Admin Dashboard</div>} />
+        <Route path="products" element={<AdminProducts />} />
+        <Route path="orders" element={<AdminOrders />} />
+        <Route path="tools" element={<AdminTools />} />
+      </Route>
+
+      {/* Main Storefront Routes */}
+      <Route path="/*" element={
+        <div className="min-h-full flex flex-col">
+          <Navbar />
+          <FloatingWidgets />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/brands" element={<Brands />} />
+              <Route path="/deals" element={<Deals />} />
+              <Route path="/printing-hub" element={<PrintingHub />} />
+              <Route path="/product/:slug" element={<ProductDetail />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/account" element={<RequireAuth><Account /></RequireAuth>} />
+              <Route path="/order/:orderNumber" element={<OrderSuccess />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      } />
+    </Routes>
   )
 }

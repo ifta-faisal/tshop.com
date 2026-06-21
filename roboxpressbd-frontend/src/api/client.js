@@ -40,6 +40,7 @@ export const Catalog = {
   newArrivals: () => api.get('/products/new-arrivals').then(r => r.data),
   trending:  () => api.get('/products/trending').then(r => r.data),
   backInStock: () => api.get('/products/back-in-stock').then(r => r.data),
+  flashSales: () => api.get('/products/flash-sale').then(r => r.data),
   uploadCsv: (formData) => api.post('/products/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   }).then(r => r.data)
@@ -62,4 +63,18 @@ export const Orders = {
 export const Account = {
   me:    () => api.get('/account/me').then(r => r.data),
   update:(data) => api.put('/account/me', data).then(r => r.data)
+}
+
+export const Admin = {
+  products: () => api.get('/admin/products').then(r => r.data),
+  createProduct: (data) => api.post('/admin/products', data).then(r => r.data),
+  updateProduct: (id, data) => api.put(`/admin/products/${id}`, data).then(r => r.data),
+  deleteProduct: (id) => api.delete(`/admin/products/${id}`).then(r => r.data),
+  uploadCsv: (formData) => api.post('/admin/products/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }).then(r => r.data),
+  orders: {
+    list: () => api.get('/admin/orders').then(r => r.data),
+    updateStatus: (id, status) => api.put(`/admin/orders/${id}/status`, { status }).then(r => r.data)
+  }
 }

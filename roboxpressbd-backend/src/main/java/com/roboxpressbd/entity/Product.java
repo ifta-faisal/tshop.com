@@ -59,9 +59,28 @@ public class Product {
     @Builder.Default
     private boolean backInStock = false;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    @Column(name = "flash_sale_enabled")
+    @Builder.Default
+    private Boolean flashSaleEnabled = false;
+
+    public boolean isFlashSaleEnabled() {
+        return Boolean.TRUE.equals(flashSaleEnabled);
+    }
+
+    @Column(name = "flash_sale_price", precision = 12, scale = 2)
+    private BigDecimal flashSalePrice;
+
+    @Column(name = "flash_sale_end_date")
+    private Instant flashSaleEndDate;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "product_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    @Builder.Default
+    private java.util.Set<Category> categories = new java.util.HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")

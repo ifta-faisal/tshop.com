@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+        .header {
+            width: 100%;
+            margin-bottom: 50px;
+        }
+        .header td {
+            vertical-align: top;
+        }
+        .company-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #000;
+        }
+        .company-details {
+            text-align: right;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+        .invoice-title {
+            font-size: 42px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 30px;
+        }
+        .meta-container {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .meta-container td {
+            vertical-align: top;
+        }
+        .billing-to {
+            font-size: 14px;
+            line-height: 1.5;
+            width: 50%;
+        }
+        .invoice-meta {
+            width: 50%;
+        }
+        .meta-table {
+            width: 100%;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .meta-table td:first-child {
+            color: #555;
+            width: 40%;
+        }
+        table.items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        table.items th {
+            background-color: #000;
+            color: #fff;
+            text-align: left;
+            padding: 12px;
+            font-size: 14px;
+        }
+        table.items td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+        .totals-container {
+            width: 100%;
+        }
+        .totals-table {
+            width: 50%;
+            float: right;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .totals-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .totals-table td:first-child {
+            font-weight: bold;
+        }
+        .totals-table tr.total td {
+            border-bottom: none;
+            border-top: 2px solid #ddd;
+        }
+        .totals-table tr.total td:first-child {
+            font-size: 18px;
+        }
+        .totals-table tr.total td:last-child {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .tax-note {
+            font-size: 11px;
+            color: #777;
+            display: block;
+            margin-top: 4px;
+            font-weight: normal;
+        }
+        .clear {
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+
+<table class="header">
+    <tr>
+        <td class="company-logo">RoboXpressbd</td>
+        <td class="company-details">
+            <strong>RoboXpressbd</strong><br/>
+            Sayed Nagar, Vatara, Dhaka-1212, Bangladesh
+        </td>
+    </tr>
+</table>
+
+<div class="invoice-title">INVOICE</div>
+
+<table class="meta-container">
+    <tr>
+        <td class="billing-to">
+            <div th:text="${order.customerName}">faisal ifta</div>
+            <div th:text="${order.shippingAddress}" style="white-space: pre-wrap; margin-top: 5px;">
+                dhaka, 1212<br/>Bangladesh
+            </div>
+            <div th:text="${order.customerEmail}" style="margin-top: 5px;">iftafaisal759@gmail.com</div>
+        </td>
+        <td class="invoice-meta">
+            <table class="meta-table">
+                <tr>
+                    <td>Invoice Number:</td>
+                    <td th:text="${order.orderNumber}">13</td>
+                </tr>
+                <tr>
+                    <td>Invoice Date:</td>
+                    <td th:text="${formattedDate}">June 14, 2026</td>
+                </tr>
+                <tr>
+                    <td>Order Number:</td>
+                    <td th:text="${order.orderNumber}">13</td>
+                </tr>
+                <tr>
+                    <td>Order Date:</td>
+                    <td th:text="${formattedDate}">June 14, 2026</td>
+                </tr>
+                <tr>
+                    <td>Payment Method:</td>
+                    <td th:text="${order.paymentMethod}">Cash on delivery</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<table class="items">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item : ${order.items}">
+            <td th:text="${item.productName}">Fat Shark Recon V3 FPV Goggles</td>
+            <td th:text="${item.quantity}">1</td>
+            <td th:text="'Tk. ' + ${#numbers.formatDecimal(item.unitPrice, 1, 'COMMA', 2, 'POINT')}">Tk. 18,755.00</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="totals-container">
+    <table class="totals-table">
+        <tr>
+            <td>Subtotal</td>
+            <td th:text="'Tk. ' + ${#numbers.formatDecimal(subtotal, 1, 'COMMA', 2, 'POINT')}">Tk. 18,755.00</td>
+        </tr>
+        <tr>
+            <td>Shipping</td>
+            <td>
+                <span th:text="'Tk. ' + ${#numbers.formatDecimal(shipping, 1, 'COMMA', 2, 'POINT')}">Tk. 150.00</span> via Sundarban Courier
+            </td>
+        </tr>
+        <tr class="total">
+            <td>Total</td>
+            <td>
+                <span th:text="'Tk. ' + ${#numbers.formatDecimal(total, 1, 'COMMA', 2, 'POINT')}">Tk. 18,905.00</span>
+                <span class="tax-note" th:text="'(includes Tk. ' + ${#numbers.formatDecimal(tax, 1, 'COMMA', 2, 'POINT')} + ' Tax)'">(includes Tk. 132.56 Tax)</span>
+            </td>
+        </tr>
+    </table>
+    <div class="clear"></div>
+</div>
+
+</body>
+</html>

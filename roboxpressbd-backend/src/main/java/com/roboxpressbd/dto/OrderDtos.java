@@ -9,7 +9,13 @@ public class OrderDtos {
             @NotBlank String customerName,
             @NotBlank String customerPhone,
             @NotBlank String shippingAddress,
-            String paymentMethod) {}
+            String paymentMethod,
+            String customerEmail,
+            List<GuestCartItem> guestItems) {}
+
+    public record GuestCartItem(
+            Long productId,
+            Integer quantity) {}
 
     public record OrderItemResponse(
             Long id, Long productId, String productName, String productSlug,

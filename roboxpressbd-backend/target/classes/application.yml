@@ -23,6 +23,17 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:roboxpressbd@gmail.com}
+    password: ${MAIL_PASSWORD:EcO@01768487848}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 app:
   jwt:

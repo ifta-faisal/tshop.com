@@ -58,4 +58,9 @@ public class CatalogController {
     public ProductDtos.ProductDetail product(@PathVariable String slug) {
         return catalogService.getProduct(slug);
     }
+
+    @GetMapping("/products/flash-sale")
+    public List<ProductDtos.ProductSummary> flashSales() {
+        return catalogService.activeFlashSales();
+    }
 }

@@ -54,11 +54,11 @@ public class CatalogService {
         if (q != null && !q.isBlank()) {
             result = productRepository.search(q.trim(), pr);
         } else if (category != null && !category.isBlank()) {
-            result = productRepository.findByCategorySlugAndActiveTrue(category, pr);
+            result = productRepository.findByCategoriesSlugAndActiveTrue(category, pr);
         } else if (brand != null && !brand.isBlank()) {
             result = productRepository.findByBrandSlugAndActiveTrue(brand, pr);
         } else {
-            result = productRepository.findByActiveTrue(pr);
+            result = productRepository.findByActiveTrueExcludingCategory("3d-printing-designs", pr);
         }
         return new ProductDtos.PageResponse<>(
                 result.getContent().stream().map(ProductDtos.ProductSummary::of).toList(),
@@ -68,22 +68,26 @@ public class CatalogService {
 
     public List<ProductDtos.ProductSummary> featured() {
         return productRepository.findTop12ByActiveTrueAndFeaturedTrueOrderByCreatedAtDesc()
-                .stream().map(ProductDtos.ProductSummary::of).toList();
+                .stream().filter(p -> p.getCategories().stream().noneMatch(c -> c.getSlug().equals("3d-printing-designs")))
+                .map(ProductDtos.ProductSummary::of).limit(12).toList();
     }
 
     public List<ProductDtos.ProductSummary> newArrivals() {
         return productRepository.findTop12ByActiveTrueAndNewArrivalTrueOrderByCreatedAtDesc()
-                .stream().map(ProductDtos.ProductSummary::of).toList();
+                .stream().filter(p -> p.getCategories().stream().noneMatch(c -> c.getSlug().equals("3d-printing-designs")))
+                .map(ProductDtos.ProductSummary::of).limit(12).toList();
     }
 
     public List<ProductDtos.ProductSummary> trending() {
         return productRepository.findTop12ByActiveTrueAndTrendingTrueOrderByCreatedAtDesc()
-                .stream().map(ProductDtos.ProductSummary::of).toList();
+                .stream().filter(p -> p.getCategories().stream().noneMatch(c -> c.getSlug().equals("3d-printing-designs")))
+                .map(ProductDtos.ProductSummary::of).limit(12).toList();
     }
 
     public List<ProductDtos.ProductSummary> backInStock() {
         return productRepository.findTop12ByActiveTrueAndBackInStockTrueOrderByCreatedAtDesc()
-                .stream().map(ProductDtos.ProductSummary::of).toList();
+                .stream().filter(p -> p.getCategories().stream().noneMatch(c -> c.getSlug().equals("3d-printing-designs")))
+                .map(ProductDtos.ProductSummary::of).limit(12).toList();
     }
 
     public List<ProductDtos.CategoryDto> categories() {
@@ -94,6 +98,10 @@ public class CatalogService {
         return brandRepository.findAll().stream().map(ProductDtos.BrandDto::of).toList();
     }
 
+    public List<ProductDtos.ProductSummary> activeFlashSales() {
+        return productRepository.findActiveFlashSales(java.time.Instant.now())
+                .stream().map(ProductDtos.ProductSummary::of).toList();
+    }
     public List<Banner> activeBanners() {
         return bannerRepository.findByActiveTrueOrderBySortOrderAsc();
     }
