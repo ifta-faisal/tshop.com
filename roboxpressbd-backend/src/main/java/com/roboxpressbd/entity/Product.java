@@ -8,7 +8,6 @@ import java.time.Instant;
 @Entity
 @Table(name = "products", indexes = {
         @Index(name = "idx_product_slug", columnList = "slug", unique = true),
-        @Index(name = "idx_product_category", columnList = "category_id"),
         @Index(name = "idx_product_brand", columnList = "brand_id")
 })
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
