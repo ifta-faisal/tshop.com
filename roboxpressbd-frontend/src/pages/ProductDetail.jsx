@@ -10,20 +10,37 @@ export default function ProductDetail() {
   const { slug } = useParams()
   const [p, setP] = useState(null)
   const [related, setRelated] = useState([])
+  const [topProducts, setTopProducts] = useState([])
   const [qty, setQty] = useState(1)
   const [activeTab, setActiveTab] = useState('description')
   const [mainImg, setMainImg] = useState('')
+  const [sidebarAds, setSidebarAds] = useState([])
   const { add, isAuthed } = useCart()
 
   useEffect(() => {
     Catalog.product(slug).then(data => {
       setP(data)
       setMainImg(data.images?.[0] || data.imageUrl || '')
+      
+      // Fetch actual related products from the same category
+      if (data.category?.slug) {
+        Catalog.products({ category: data.category.slug, size: 5 }).then(res => {
+          const filtered = res.content.filter(x => x.id !== data.id).slice(0, 4)
+          setRelated(filtered)
+        }).catch(() => {})
+      }
     }).catch(() => setP(null))
     
+    // Fetch top/trending products independently
     Catalog.trending().then(data => {
       if (data && data.length) {
-        setRelated(data.slice(0, 4))
+        setTopProducts(data)
+      }
+    }).catch(() => {})
+
+    Catalog.banners().then(data => {
+      if (data && data.length) {
+        setSidebarAds(data.filter(b => b.placement === 'AD_SIDEBAR'))
       }
     }).catch(() => {})
   }, [slug])
@@ -53,6 +70,10 @@ export default function ProductDetail() {
 
   const images = p.images?.length > 0 ? p.images : [p.imageUrl].filter(Boolean)
   const galleryImages = images.length > 0 ? images : []
+
+  const displayTopProducts = topProducts
+    .filter(tp => tp.id !== p.id && !related.some(rp => rp.id === tp.id))
+    .slice(0, 4);
 
   return (
     <div className="bg-white min-h-screen pb-16 font-sans">
@@ -226,18 +247,18 @@ export default function ProductDetail() {
         <h3 className="text-lg text-gray-800 font-bold mb-5 tracking-wide uppercase">Top Products</h3>
         <div className="w-full h-px bg-gray-200 mb-5"></div>
         <div className="flex flex-col gap-4">
-          {related.length > 0 ? related.map((rp, idx) => (
+          {displayTopProducts.length > 0 ? displayTopProducts.map((tp, idx) => (
             <Link 
               key={`top-${idx}`} 
-              to={`/product/${rp.slug}`} 
+              to={`/product/${tp.slug}`} 
               className="flex items-center gap-3 py-3 border-b border-gray-100 last:border-0 hover:opacity-80 transition"
             >
               <div className="w-16 h-16 shrink-0 bg-white border border-gray-200 rounded flex items-center justify-center p-1">
-                <img src={rp.images?.[0] || rp.imageUrl} alt={rp.name} className="w-full h-full object-contain" />
+                <img src={tp.images?.[0] || tp.imageUrl} alt={tp.name} className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col justify-center">
-                <h4 className="text-[13px] font-medium text-gray-800 line-clamp-2 mb-1 leading-snug">{rp.name}</h4>
-                <div className="text-[15px] font-bold text-[#1d4ed8]">{fmt(rp.price)}</div>
+                <h4 className="text-[13px] font-medium text-gray-800 line-clamp-2 mb-1 leading-snug">{tp.name}</h4>
+                <div className="text-[15px] font-bold text-[#1d4ed8]">{fmt(tp.price)}</div>
               </div>
             </Link>
           )) : (
@@ -363,26 +384,56 @@ export default function ProductDetail() {
         <h3 className="text-lg text-gray-800 font-bold mb-5 tracking-wide uppercase">Advertise</h3>
         <div className="w-full h-px bg-gray-200 mb-5"></div>
         <div className="flex flex-col gap-8">
-          {/* Ad 1 */}
-          <a href="#" className="block hover:opacity-90 transition group overflow-hidden border border-gray-200 rounded-lg shadow-sm">
-            <div className="aspect-square bg-[#1a1a1a] flex flex-col items-center justify-center p-4 text-white text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/30 to-black mix-blend-overlay"></div>
-              <h4 className="text-3xl font-black italic mb-2 tracking-tighter shadow-sm z-10 leading-none" style={{textShadow: "0 0 10px rgba(255,255,255,0.5)", color: "#fff"}}>BATTERY<br/>RESTOCKED</h4>
-              <p className="text-[10px] text-gray-300 font-medium z-10 mb-4 tracking-wide">Check the description for more details</p>
-              <div className="z-10 flex items-center gap-1.5 opacity-80">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-                <span className="text-[12px] font-bold tracking-widest lowercase">roboxpressbd</span>
-              </div>
-            </div>
-          </a>
-          {/* Ad 2 */}
-          <a href="#" className="block hover:opacity-90 transition group bg-white text-center mt-2">
-            <h4 className="text-[15px] font-black text-gray-900 mb-1 tracking-wider uppercase">WALKSNAIL</h4>
-            <p className="text-[10px] text-gray-400 mb-3 uppercase tracking-widest">Avatar HD System</p>
-            <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center border border-gray-100 relative overflow-hidden">
-               <img src="https://images.unsplash.com/photo-1579829366248-204fe8413f31?auto=format&fit=crop&q=80&w=400" alt="Drone Parts" className="w-full h-full object-cover opacity-60 mix-blend-multiply" />
-            </div>
-          </a>
+          {sidebarAds.length > 0 ? sidebarAds.map((ad, idx) => (
+            ad.imageUrl === 'COMPONENT:BatteryAd' ? (
+              <a key={idx} href={ad.linkUrl || '#'} className="block hover:opacity-90 transition group overflow-hidden border border-gray-200 rounded-lg shadow-sm">
+                <div className="aspect-square bg-[#1a1a1a] flex flex-col items-center justify-center p-4 text-white text-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/30 to-black mix-blend-overlay"></div>
+                  <h4 className="text-3xl font-black italic mb-2 tracking-tighter shadow-sm z-10 leading-none" style={{textShadow: "0 0 10px rgba(255,255,255,0.5)", color: "#fff"}}>BATTERY<br/>RESTOCKED</h4>
+                  <p className="text-[10px] text-gray-300 font-medium z-10 mb-4 tracking-wide">Check the description for more details</p>
+                  <div className="z-10 flex items-center gap-1.5 opacity-80">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                    <span className="text-[12px] font-bold tracking-widest lowercase">roboxpressbd</span>
+                  </div>
+                </div>
+              </a>
+            ) : ad.imageUrl === 'COMPONENT:WalksnailAd' ? (
+              <a key={idx} href={ad.linkUrl || '#'} className="block hover:opacity-90 transition group bg-white text-center mt-2">
+                <h4 className="text-[15px] font-black text-gray-900 mb-1 tracking-wider uppercase">WALKSNAIL</h4>
+                <p className="text-[10px] text-gray-400 mb-3 uppercase tracking-widest">Avatar HD System</p>
+                <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center border border-gray-100 relative overflow-hidden">
+                   <img src="https://images.unsplash.com/photo-1579829366248-204fe8413f31?auto=format&fit=crop&q=80&w=400" alt="Drone Parts" className="w-full h-full object-cover opacity-60 mix-blend-multiply" />
+                </div>
+              </a>
+            ) : (
+              <a key={idx} href={ad.linkUrl || '#'} className="block hover:opacity-90 transition group overflow-hidden border border-gray-200 rounded-lg shadow-sm">
+                <img src={ad.imageUrl} alt={ad.title} className="w-full h-auto object-cover" />
+              </a>
+            )
+          )) : (
+            <>
+              {/* Fallback Ad 1 */}
+              <a href="#" className="block hover:opacity-90 transition group overflow-hidden border border-gray-200 rounded-lg shadow-sm">
+                <div className="aspect-square bg-[#1a1a1a] flex flex-col items-center justify-center p-4 text-white text-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/30 to-black mix-blend-overlay"></div>
+                  <h4 className="text-3xl font-black italic mb-2 tracking-tighter shadow-sm z-10 leading-none" style={{textShadow: "0 0 10px rgba(255,255,255,0.5)", color: "#fff"}}>BATTERY<br/>RESTOCKED</h4>
+                  <p className="text-[10px] text-gray-300 font-medium z-10 mb-4 tracking-wide">Check the description for more details</p>
+                  <div className="z-10 flex items-center gap-1.5 opacity-80">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                    <span className="text-[12px] font-bold tracking-widest lowercase">roboxpressbd</span>
+                  </div>
+                </div>
+              </a>
+              {/* Fallback Ad 2 */}
+              <a href="#" className="block hover:opacity-90 transition group bg-white text-center mt-2">
+                <h4 className="text-[15px] font-black text-gray-900 mb-1 tracking-wider uppercase">WALKSNAIL</h4>
+                <p className="text-[10px] text-gray-400 mb-3 uppercase tracking-widest">Avatar HD System</p>
+                <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center border border-gray-100 relative overflow-hidden">
+                   <img src="https://images.unsplash.com/photo-1579829366248-204fe8413f31?auto=format&fit=crop&q=80&w=400" alt="Drone Parts" className="w-full h-full object-cover opacity-60 mix-blend-multiply" />
+                </div>
+              </a>
+            </>
+          )}
         </div>
       </div>
 
