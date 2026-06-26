@@ -21,40 +21,34 @@ const MEGA_MENUS = {
     { title: 'REMOTE CONTROLLER', slug: 'radios-tx-rx', image: 'https://m.media-amazon.com/images/I/51l4NGQpo6L._AC_UF894,1000_QL80_.jpg' },
     { title: 'BATTERIES', slug: 'li-ion-batteries', image: 'https://radiomasterrc.com/cdn/shop/files/HP0157.BATT-6200-2S-1000X1000-2_1080x.jpg?v=1750061769' },
     { title: 'CONTROLLER EXTERNAL MODULE', slug: 'radios-tx-rx', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnvrrhUYhJD-BXTPps0uR9P71I72ZpDSQ7g4fusTgbZYbckBNbELSIZO8&s=10' },
-    { title: 'ACCESSORIES', slug: 'tools-accessories', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkogHmRo45sV5sRRh1CRiAxDUatmBZeYftMlPw7or-h5d2upMuhVCDmOw&s=10' },
+    { title: 'ACCESSORIES', slug: 'accessories', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkogHmRo45sV5sRRh1CRiAxDUatmBZeYftMlPw7or-h5d2upMuhVCDmOw&s=10' },
   ],
   'BATTERIES & CHARGERS': [
     { title: 'DRONE BATTERIES', slug: 'lipo-batteries', image: 'https://cdn-global-hk.hobbyking.com/media/catalog/product/cache/1/image/660x415/17f82f742ffe127f42dca9de82fb58b1/t/u/turnigy_rapid_lihv_9500mah_4s_15.2v_100c_lipo_battery_wec5_connector_for_rc_cars_1__1.jpg' },
     { title: 'CONTROLLER BATTERIES', slug: 'li-ion-batteries', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2Hj2iqRyTcrdklnxXtrcZ0-kXZ1vfPTVlyN0EZO-3WfY9UizIhKP4vmxh&s=10' },
     { title: 'GOGGLE BATTERIES', slug: 'lipo-batteries', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhPW9POJnZ91SMpGc3KcMXIUr3_NrVgPr9PAIIqlLicQ49kQfbNsAm7oU&s=10' },
     { title: 'CHARGERS', slug: 'chargers-power-supply', image: 'https://www.toolkitrc.com/wp-content/uploads/2024/11/M6AC-1000px-6-e1733811027106-300x300.jpg' },
-    { title: 'CONNECTORS & ADAPTERS', slug: 'cables', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIJMpmGxLSOTPjMhAOuzcqfkR0hRDV1Gl1AvM8bqdy96D3wkvbrmc1Jew&s=10' },
-    { title: 'ACCESSORIES', slug: 'tools-accessories', image: 'https://cdn11.bigcommerce.com/s-fhxxhuiq8q/products/121/images/756/2__35729.1659431009.386.513.jpg?c=2' },
+    { title: 'GPS', slug: 'GPS', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOpnXBJWQ1Jg11a68WMvQWZpjkwJC4_W5mINPklMYNZQ&s=10' },
+    { title: 'ACCESSORIES', slug: 'accessories', image: 'https://cdn11.bigcommerce.com/s-fhxxhuiq8q/products/121/images/756/2__35729.1659431009.386.513.jpg?c=2' },
   ],
   'GOGGLES & VIDEO': [
-    { title: 'GOGGLES', slug: 'fpv', image: 'https://www.team-blacksheep.com/img/gallery/Walksnail%20Avatar%20HD%20Goggles%20X%200.jpg' },
-    { title: 'VIDEO RECEIVER MODULE', slug: 'fpv', image: 'https://m.media-amazon.com/images/I/51mYY57zxtL.jpg' },
+    { title: 'GOGGLES', slug: 'fpv-goggles', image: 'https://www.team-blacksheep.com/img/gallery/Walksnail%20Avatar%20HD%20Goggles%20X%200.jpg' },
+    { title: 'VIDEO RECEIVER MODULE', slug: 'video-transmitters', image: 'https://m.media-amazon.com/images/I/51mYY57zxtL.jpg' },
     { title: 'ANTENNAS', slug: 'antenna', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjcsGEpsjKGwQ65H5I7jT23G6dw_f_fVTKQzBFT2j34JkfZrAuibLTdTbN&s=10' },
-    { title: 'BATTERIES & ACCESSORIES', slug: 'tools-accessories', image: 'https://newbeedrone.com/cdn/shop/files/NewBeeDrone-FatStraps-2_-FPV-Goggle-Strap-for-DJI-Goggle-V2-FatStraps-52286825_2268x.webp?v=1729799857' },
+    { title: 'BATTERIES & ACCESSORIES', slug: 'accessories', image: 'https://newbeedrone.com/cdn/shop/files/NewBeeDrone-FatStraps-2_-FPV-Goggle-Strap-for-DJI-Goggle-V2-FatStraps-52286825_2268x.webp?v=1729799857' },
   ]
 }
 
 const MENU_CATEGORIES = [
-  { name: '3D Printing', slug: '3d-printing', sub: ['3D Printer', '3D Printer Accessories', 'Filaments'] },
   { name: 'All Products', slug: '', isAll: true },
-  { name: 'Li-ion Batteries', slug: 'li-ion-batteries' },
-  { name: 'LiPo Batteries', slug: 'lipo-batteries' },
-  { name: 'Brands', slug: 'brands', sub: ['Anycubic', 'AOS RC', 'Arduino', 'Axisflying', 'Bambu Lab', 'BETAFPV', 'Caddx', 'CUAV', 'CubePilot', 'DarwinFPV', 'Diatone', 'DJI', 'Eachine', 'Fat Shark', 'ISDT', 'FLSUN', 'Flysky', 'FlyFishRC', 'Flywoo', 'Foxeer', 'Gemfan'] },
-  { name: 'Chargers & Power Supply', slug: 'chargers-power-supply' },
-  { name: 'DJI', slug: 'dji' },
-  { name: 'Drone Parts', slug: 'drone-parts', sub: ['Antenna', 'Electronics Speed Controller', 'Flight Controller', 'Flight Controller Stack', 'FPV', 'Frames', 'FPV/Action Camera', 'GPS', 'Radios & Tx Rx', 'Motors', 'Propellers'] },
-  { name: 'Tools & Accessories', slug: 'tools-accessories' },
-  { name: 'Microcontrollers', slug: 'microcontrollers' },
-  { name: 'Robotics', slug: 'robotics' },
-  { name: 'Drone Bundles', slug: 'drone-bundles' },
-  { name: 'Ready-To-Fly Drones', slug: 'ready-to-fly-drones' },
-  { name: 'Micro Quadcopters', slug: 'micro-quadcopters' },
+  { name: 'Electronics', slug: 'electronics', sub: ['Development Board', 'Displays', 'Sensors', 'Mini Computer', 'Electronic Motors'] },
+  { name: 'Mechanical', slug: 'mechanical', sub: ['Hardware', 'Tools', 'CNC Machine'] },
+  { name: 'Drone / FPV', slug: 'fpv', sub: ['DJI', 'Flight Controller', 'Motors', 'Antenna', 'Radios & Tx Rx', 'FPV Goggles', 'Video Transmitters', 'Propellers', 'Frames', 'Accessories', 'GPS'] },
+  { name: 'Power & Batteries', slug: 'power-batteries', sub: ['LiPo Batteries', 'Li-ion Batteries', 'Chargers & Power Supply'] },
+  { name: '3D Printing', slug: '3d-printing', sub: ['3D Printer', '3D Printer Accessories', '3D Design', 'Filaments'] },
   { name: 'Planes', slug: 'planes' },
+  { name: 'Ready to Fly', slug: 'ready-to-fly' },
+  { name: 'Brands', slug: 'brands', sub: ['Anycubic', 'Arduino', 'Bambu Lab', 'BETAFPV', 'Caddx', 'DJI', 'Eachine', 'Fat Shark', 'Flysky', 'Foxeer', 'Gemfan', 'Sunlu'] }
 ]
 
 export default function Navbar() {
@@ -78,6 +72,17 @@ export default function Navbar() {
   useEffect(() => {
     Catalog.categories()
       .then(res => setDbCategories(res || []))
+      .catch(() => {})
+
+    Catalog.brands()
+      .then(res => {
+        if (res && res.length > 0) {
+          const brandNames = res.map(b => b.name).sort()
+          setCategories(prev => prev.map(c => 
+            c.slug === 'brands' ? { ...c, sub: brandNames } : c
+          ))
+        }
+      })
       .catch(() => {})
   }, [])
 
@@ -168,7 +173,7 @@ export default function Navbar() {
 
       {/* ── Main bar ── */}
       <div className="bg-white relative z-20">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center gap-4 justify-between md:justify-start">
+        <div className="max-w-7xl mx-auto px-4 py-1.5 flex flex-wrap items-center gap-4 justify-between md:justify-start">
 
           {/* Mobile Hamburger */}
           <button className="md:hidden p-1 text-slate-800" onClick={() => { setCatOpen(o => !o); setExpandedCat(null) }}>
@@ -178,25 +183,8 @@ export default function Navbar() {
           </button>
 
           {/* Logo */}
-          <Link to="/" className="shrink-0 flex items-center gap-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-2 border-slate-700 rounded">
-              <svg viewBox="0 0 32 32" fill="none" className="w-5 h-5 md:w-7 md:h-7">
-                <rect x="4" y="4" width="10" height="10" rx="1" fill="none" stroke="#1a2a4f" strokeWidth="2"/>
-                <rect x="18" y="4" width="10" height="10" rx="1" fill="none" stroke="#1a2a4f" strokeWidth="2"/>
-                <rect x="4" y="18" width="10" height="10" rx="1" fill="none" stroke="#1a2a4f" strokeWidth="2"/>
-                <rect x="18" y="18" width="10" height="10" rx="1" fill="none" stroke="#1a2a4f" strokeWidth="2"/>
-                <line x1="9" y1="14" x2="9" y2="18" stroke="#1a2a4f" strokeWidth="1.5"/>
-                <line x1="23" y1="14" x2="23" y2="18" stroke="#1a2a4f" strokeWidth="1.5"/>
-                <line x1="14" y1="9" x2="18" y2="9" stroke="#1a2a4f" strokeWidth="1.5"/>
-                <line x1="14" y1="23" x2="18" y2="23" stroke="#1a2a4f" strokeWidth="1.5"/>
-              </svg>
-            </div>
-            <div className="leading-tight">
-              <div className="font-extrabold text-lg md:text-xl tracking-tight leading-none" style={{ color: '#1a2a4f' }}>
-                ROBOX<span style={{ color: '#16a34a' }}>PRESS</span>
-              </div>
-              <div className="text-[9px] md:text-[10px] text-slate-400 font-normal tracking-wide mt-0.5">bd.com</div>
-            </div>
+          <Link to="/" className="shrink-0 flex items-center">
+            <img src="/logorobo.png" alt="RoboXpress Logo" className="h-14 md:h-[4.5rem] object-contain scale-[1.3] md:scale-[1.5] origin-left transition-transform" />
           </Link>
 
           {/* Desktop Search bar */}
@@ -231,7 +219,7 @@ export default function Navbar() {
                     {searchResults.map(p => (
                       <Link 
                         key={p.id} 
-                        to={`/products/${p.slug}`}
+                        to={`/product/${p.slug}`}
                         onClick={() => { setShowResults(false); setQ('') }}
                         className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition"
                       >
@@ -421,7 +409,7 @@ export default function Navbar() {
                       {l.label}
                     </Link>
                     {/* Mega Menu Dropdown */}
-                    <div className="absolute top-full left-4 right-4 bg-white shadow-lg border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible z-50 p-8 cursor-default" style={{ borderTop: '2px solid #2563eb' }}>
+                    <div className="absolute top-full left-4 right-4 bg-white shadow-lg border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible z-50 p-8" style={{ borderTop: '2px solid #2563eb' }}>
                       <div className={`grid ${gridClass} gap-6`}>
                         {MEGA_MENUS[l.label].map(item => {
                           const imgSrc = item.image

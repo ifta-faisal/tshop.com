@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import { Catalog } from '../api/client'
 import ProductCard from '../components/ProductCard.jsx'
 
@@ -55,9 +55,19 @@ export default function Products() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="text-sm text-slate-500 mb-6 flex items-center gap-2">
-        <a href="/" className="hover:text-blue-600">Home</a>
+        <Link to="/" className="hover:text-blue-600">Home</Link>
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-        <span className="text-slate-800 font-medium">Products</span>
+        {(q || category || brand) ? (
+          <>
+            <Link to="/products" className="hover:text-blue-600">Products</Link>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            <span className="text-slate-800 font-medium">
+              {q ? `Search: "${q}"` : category ? (categories.find(c => c.slug === category)?.name || category) : brand ? (brands.find(b => b.slug === brand)?.name || brand) : ''}
+            </span>
+          </>
+        ) : (
+          <span className="text-slate-800 font-medium">Products</span>
+        )}
       </div>
 
       <div className="grid md:grid-cols-[260px_1fr] gap-8">
@@ -164,7 +174,13 @@ export default function Products() {
 
       <section>
         <h1 className="text-xl font-bold mb-4">
-          {q ? `Search: "${q}"` : category || brand ? 'Filtered Products' : 'All Products'}
+          {q
+            ? `Search: "${q}"`
+            : category
+              ? (categories.find(c => c.slug === category)?.name || category)
+              : brand
+                ? (brands.find(b => b.slug === brand)?.name || brand)
+                : 'All Products'}
           <span className="text-sm font-normal text-slate-500 ml-2">({data.totalElements})</span>
         </h1>
         {data.content.length === 0
@@ -173,12 +189,70 @@ export default function Products() {
               {data.content.map(p => <ProductCard key={p.id} product={p} />)}
             </div>}
         {data.totalPages > 1 && (
-          <div className="flex justify-center gap-2 mt-6">
-            <button disabled={page === 0} onClick={() => setPage(p => p - 1)}
-              className="px-3 py-1 border rounded disabled:opacity-50">Previous</button>
-            <span className="px-3 py-1">Page {page + 1} of {data.totalPages}</span>
-            <button disabled={page + 1 >= data.totalPages} onClick={() => setPage(p => p + 1)}
-              className="px-3 py-1 border rounded disabled:opacity-50">Next</button>
+          <div className="flex flex-col xl:flex-row items-center justify-between mt-10 gap-4">
+            <div className="text-sm text-slate-500">
+              Showing <span className="font-bold text-slate-700">{page * 48 + 1}</span> to <span className="font-bold text-slate-700">{Math.min((page + 1) * 48, data.totalElements)}</span> of <span className="font-bold text-slate-700">{data.totalElements}</span> results
+            </div>
+            <div className="flex items-center gap-1.5 flex-wrap justify-center">
+              <button 
+                disabled={page === 0} 
+                onClick={() => setPage(p => p - 1)}
+                className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border border-slate-200 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:bg-slate-100 disabled:text-slate-400 transition-colors"
+              >
+                ‹
+              </button>
+              
+              {(() => {
+                const maxVisible = 5;
+                let startPage = Math.max(0, page - Math.floor(maxVisible / 2));
+                let endPage = Math.min(data.totalPages - 1, startPage + maxVisible - 1);
+                
+                if (endPage - startPage + 1 < maxVisible) {
+                  startPage = Math.max(0, endPage - maxVisible + 1);
+                }
+                
+                const pages = [];
+                for (let i = startPage; i <= endPage; i++) {
+                  pages.push(i);
+                }
+
+                return (
+                  <>
+                    {startPage > 0 && (
+                      <>
+                        <button onClick={() => setPage(0)} className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border border-slate-200 rounded text-slate-600 hover:bg-slate-50 font-medium text-sm transition-colors">1</button>
+                        {startPage > 1 && <span className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-slate-400">...</span>}
+                      </>
+                    )}
+                    
+                    {pages.map(p => (
+                      <button 
+                        key={p} 
+                        onClick={() => setPage(p)}
+                        className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border rounded font-medium text-sm transition-colors ${page === p ? 'bg-[#2563eb] text-white border-[#2563eb]' : 'border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                      >
+                        {p + 1}
+                      </button>
+                    ))}
+                    
+                    {endPage < data.totalPages - 1 && (
+                      <>
+                        {endPage < data.totalPages - 2 && <span className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-slate-400">...</span>}
+                        <button onClick={() => setPage(data.totalPages - 1)} className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border border-slate-200 rounded text-slate-600 hover:bg-slate-50 font-medium text-sm transition-colors">{data.totalPages}</button>
+                      </>
+                    )}
+                  </>
+                )
+              })()}
+              
+              <button 
+                disabled={page + 1 >= data.totalPages} 
+                onClick={() => setPage(p => p + 1)}
+                className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border border-slate-200 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:bg-slate-100 disabled:text-slate-400 transition-colors"
+              >
+                ›
+              </button>
+            </div>
           </div>
         )}
       </section>

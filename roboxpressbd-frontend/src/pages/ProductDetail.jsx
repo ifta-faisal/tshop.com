@@ -195,13 +195,32 @@ export default function ProductDetail() {
 
             {/* Actions */}
             <div className="flex items-center gap-4 mb-6">
-              <input 
-                type="number" 
-                min="1" 
-                value={qty} 
-                onChange={(e) => setQty(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-20 h-11 border border-gray-300 rounded-full text-center text-gray-800 focus:outline-none focus:border-gray-500 font-medium bg-white" 
-              />
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => setQty(Math.max(1, (qty || 1) - 1))}
+                  className="w-10 h-10 md:w-11 md:h-11 border border-gray-200 rounded-md flex items-center justify-center bg-[#fafafa] hover:bg-gray-100 transition"
+                >
+                  <span className="block w-3.5 h-[2.5px] bg-gray-400 rounded-full"></span>
+                </button>
+                <input 
+                  type="text" 
+                  value={qty} 
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, '');
+                    setQty(val === '' ? '' : Math.max(1, parseInt(val) || 1));
+                  }}
+                  onBlur={(e) => {
+                    if (!e.target.value) setQty(1);
+                  }}
+                  className="w-12 h-10 md:w-16 md:h-11 border border-gray-200 rounded-md text-center text-[#1a2a4f] focus:outline-none focus:border-gray-400 font-medium bg-white text-[15px]" 
+                />
+                <button 
+                  onClick={() => setQty((qty === '' ? 1 : qty) + 1)}
+                  className="w-10 h-10 md:w-11 md:h-11 border border-gray-200 rounded-md flex items-center justify-center bg-white hover:bg-gray-50 transition"
+                >
+                  <svg className="w-[18px] h-[18px] text-black stroke-[2.5px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14M5 12h14"/></svg>
+                </button>
+              </div>
               <button onClick={onAdd} className="h-11 px-8 bg-[#555] hover:bg-[#444] text-white font-bold rounded-full transition-colors flex items-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 Add to cart

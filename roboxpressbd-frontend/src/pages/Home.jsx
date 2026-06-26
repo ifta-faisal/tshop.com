@@ -76,13 +76,6 @@ export default function Home() {
           viewAllHref="/products?category=sensors"
         />
 
-        {/* Drone Accessories */}
-        <ProductCarousel
-          title="Drone Accessories"
-          fetcher={() => Catalog.products({ category: 'fpv', size: 10 }).then(r => r.content.length ? r.content : Catalog.trending())}
-          viewAllHref="/products?category=fpv"
-        />
-
         {/* PROMOTION banner */}
         {promoBanner && (
           <Link to={promoBanner.linkUrl || '/products'}
@@ -90,9 +83,16 @@ export default function Home() {
             style={{ display: 'block' }}>
             <img src={promoBanner.imageUrl} alt={promoBanner.title}
               className="w-full object-cover"
-              style={{ height: '280px', objectPosition: 'center', borderRadius: '8px' }} />
+              style={{ height: '240px', objectPosition: 'center', borderRadius: '8px' }} />
           </Link>
         )}
+
+        {/* Drone Accessories */}
+        <ProductCarousel
+          title="Drone Accessories"
+          fetcher={() => Catalog.products({ category: 'fpv', size: 10 }).then(r => r.content.length ? r.content : Catalog.trending())}
+          viewAllHref="/products?category=fpv"
+        />
 
         {/* 3D Printer & Accessories */}
         <ProductCarousel
@@ -106,6 +106,13 @@ export default function Home() {
           title="Battery & Charger"
           fetcher={() => Catalog.products({ category: 'chargers-power-supply', size: 10 }).then(r => r.content.length ? r.content : Catalog.backInStock())}
           viewAllHref="/products?category=chargers-power-supply"
+        />
+
+        {/* Mechanical Tools */}
+        <ProductCarousel
+          title="Mechanical Tools"
+          fetcher={() => Catalog.products({ category: 'mechanical', size: 10 }).then(r => r.content.length ? r.content : Catalog.newArrivals())}
+          viewAllHref="/products?category=mechanical"
         />
 
         {/* ── Popular Categories ── */}
@@ -128,7 +135,7 @@ export default function Home() {
                     style={{ height: '160px', background: '#f8fafc' }}>
                     {c.imageUrl
                       ? <img src={c.imageUrl} alt={c.name} className="w-36 h-36 object-contain relative z-10" />
-                      : <div className="text-6xl relative z-10">{CATEGORY_ICON(c.name)}</div>
+                      : <img src={`https://placehold.co/220x220/f8fafc/334155?text=${encodeURIComponent(c.name)}`} alt={c.name} className="w-36 h-36 object-contain relative z-10" />
                     }
                   </div>
                   {/* Label */}
@@ -172,7 +179,7 @@ export default function Home() {
                   className="flex-shrink-0 bg-white rounded-lg border border-slate-200 hover:shadow-md transition cursor-pointer overflow-hidden block"
                   style={{ width: 'calc(20% - 13px)', minWidth: '220px', height: '220px' }}>
                   <img
-                    src={b.logoUrl}
+                    src={b.logoUrl || `https://placehold.co/220x220/334155/ffffff?text=${encodeURIComponent(b.name)}`}
                     alt={b.name}
                     className="w-full h-full object-cover"
                     onError={e => {
@@ -215,24 +222,7 @@ export default function Home() {
           </Link>
         )}
 
-        {/* ── SEO Text Block ── */}
-        <section className="bg-white rounded-lg border border-slate-200 p-6 text-sm text-slate-700 space-y-3 mb-4">
-          <h2 className="text-xl font-bold text-slate-900 text-center mb-4">
-            Leading Drone &amp; Robotics Store in Bangladesh
-          </h2>
-          <p className="text-justify">
-Looking for high-quality FPV drones, drone components, UAV systems, or reliable drone accessories in Bangladesh?
-Our online store is built to meet the needs of drone pilots, aerial photographers, FPV racers, hobbyists, engineers, and UAV enthusiasts nationwide. We offer a wide range of products, including flight controllers, brushless motors, ESCs, propellers, GPS modules, FPV cameras, video transmitters, radio systems, batteries, chargers, frames, and more.
-We also provide trusted sourcing services for specialized drone parts from international suppliers, ensuring you get the exact equipment you need — quickly and hassle-free. Whether you're building a custom FPV drone, upgrading your aerial platform, training for competitions, or developing advanced UAV projects, we've got you covered with expert support, competitive pricing, and a large inventory of genuine products.
-Explore premium drone components, FPV gear, UAV accessories, and global sourcing services — perfect for pilots, makers, engineers, and drone enthusiasts across Bangladesh
-          </p>
-          <h3 className="font-bold text-slate-900">High-Quality Components for Your Next  Projects</h3>
-          <p className="text-justify">
-We offer a wide selection of high-quality FPV drones, drone components, and accessories to support pilots, hobbyists, and professionals alike.
-Whether you're building a custom FPV drone, upgrading your racing quad, capturing cinematic footage, or working on a UAV project, we've got the right equipment for you. Browse through essential items like flight controllers, brushless motors, ESCs, propellers, GPS modules, radio transmitters, receivers, FPV cameras, video transmitters, batteries, chargers, frames, and more.
-All our products are carefully tested for reliability and sourced from trusted brands to ensure top performance in every flight. Shop with confidence and take your drone experience to new heights
-          </p>
-        </section>
+
 
       </div>
     </div>

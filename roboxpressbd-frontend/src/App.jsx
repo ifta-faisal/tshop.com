@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import Home from './pages/Home.jsx'
@@ -14,6 +15,7 @@ import NotFound from './pages/NotFound.jsx'
 import PrintingHub from './pages/PrintingHub.jsx'
 import Brands from './pages/Brands.jsx'
 import Deals from './pages/Deals.jsx'
+import Contact from './pages/Contact.jsx'
 import RequireAuth from './components/RequireAuth.jsx'
 import FloatingWidgets from './components/FloatingWidgets.jsx'
 
@@ -23,9 +25,19 @@ import AdminProducts from './pages/admin/AdminProducts.jsx'
 import AdminOrders from './pages/admin/AdminOrders.jsx'
 import AdminTools from './pages/admin/AdminTools.jsx'
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 export default function App() {
   return (
-    <Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
       {/* Admin Routes (Separate Layout) */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<div className="text-2xl font-bold">Welcome to Admin Dashboard</div>} />
@@ -46,6 +58,7 @@ export default function App() {
               <Route path="/brands" element={<Brands />} />
               <Route path="/deals" element={<Deals />} />
               <Route path="/printing-hub" element={<PrintingHub />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/product/:slug" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/login" element={<Login />} />
@@ -59,6 +72,7 @@ export default function App() {
           <Footer />
         </div>
       } />
-    </Routes>
+      </Routes>
+    </>
   )
 }

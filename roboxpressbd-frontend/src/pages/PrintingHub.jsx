@@ -17,8 +17,8 @@ export default function PrintingHub() {
 
   useEffect(() => {
     setLoading(true)
-    // Fetch products in 3D Printing Designs category (using our seeded dummy data)
-    Catalog.products({ category: '3d-printing-designs' })
+    // Fetch products in 3D Printing Designs category (using our imported data)
+    Catalog.products({ category: '3d-design', size: 20 })
       .then(res => setProducts(res.content || []))
       .catch(console.error)
       .finally(() => setLoading(false))
