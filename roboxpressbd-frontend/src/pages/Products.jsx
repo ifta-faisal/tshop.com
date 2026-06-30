@@ -181,7 +181,7 @@ export default function Products() {
               : brand
                 ? (brands.find(b => b.slug === brand)?.name || brand)
                 : 'All Products'}
-          <span className="text-sm font-normal text-slate-500 ml-2">({data.totalElements})</span>
+
         </h1>
         {data.content.length === 0
           ? <div className="text-center py-20 text-slate-500">No products found</div>

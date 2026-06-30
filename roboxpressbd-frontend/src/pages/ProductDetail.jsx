@@ -289,7 +289,7 @@ export default function ProductDetail() {
       {/* Middle: Tabs */}
       <div className="lg:col-span-2">
         <div className="flex flex-wrap justify-center gap-x-10 gap-y-4 border-b border-gray-200 mb-8 w-full">
-            {['description', 'specifications', 'reviews'].map(tab => (
+            {['description', 'reviews'].map(tab => (
               <button 
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -308,10 +308,32 @@ export default function ProductDetail() {
                   <div 
                     className="prose prose-base text-gray-700 max-w-4xl prose-headings:font-bold prose-headings:text-gray-900 prose-a:text-blue-600 prose-img:max-w-[70%] lg:prose-img:max-w-[50%] prose-img:h-auto prose-img:object-contain prose-img:mx-auto prose-img:block prose-img:my-8 prose-p:leading-relaxed prose-table:w-full prose-table:overflow-x-auto block"
                     dangerouslySetInnerHTML={{ 
-                      __html: p.description
-                        .replace(/\\n/g, '<br />')
-                        .replace(/\n/g, '<br />')
-                        .replace(/\[embed\](.*?)\[\/embed\]/g, (match, url) => {
+                      __html: (() => {
+                        const isHtml = /<[a-z][\s\S]*>/i.test(p.description);
+                        let html = p.description;
+                        if (!isHtml) {
+                          // Plain text: convert newlines to <br>
+                          html = html
+                            .replace(/\\n/g, '<br />')
+                            .replace(/\n/g, '<br />')
+                            // Remove empty/whitespace-only paragraphs
+                            .replace(/<p[^>]*>(\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, '')
+                            // Collapse 3+ consecutive <br> into at most 1
+                            .replace(/(<br\s*\/?>\s*){3,}/gi, '<br />')
+                            // Strip leading/trailing <br>
+                            .replace(/^(\s*<br\s*\/?>\s*)+/gi, '')
+                            .replace(/(\s*<br\s*\/?>\s*)+$/gi, '');
+                        } else {
+                          // Already HTML: strip literal \n strings that appear as visible text
+                          html = html
+                            .replace(/\\n/g, '')
+                            .replace(/\n/g, ' ')
+                            // Remove empty/whitespace-only paragraphs
+                            .replace(/<p[^>]*>(\s|&nbsp;|<br\s*\/?>|\u00a0)*<\/p>/gi, '')
+                            .replace(/(<br\s*\/?>\s*){3,}/gi, '<br />');
+                        }
+                        // Handle [embed] shortcodes for both cases
+                        return html.replace(/\[embed\](.*?)\[\/embed\]/g, (match, url) => {
                           let videoId = '';
                           const watchMatch = url.match(/v=([^&]+)/);
                           const youtuMatch = url.match(/youtu\.be\/([^?]+)/);
@@ -321,7 +343,8 @@ export default function ProductDetail() {
                             return `<div class="my-8 w-full max-w-3xl mx-auto"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full aspect-video rounded-lg shadow-md"></iframe></div>`;
                           }
                           return `<a href="${url}" target="_blank" rel="noreferrer" class="text-blue-600 underline">${url}</a>`;
-                        })
+                        });
+                      })()
                     }}
                   />
                 ) : (
@@ -330,27 +353,7 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Specifications Tab */}
-            {activeTab === 'specifications' && (
-              <div className="animate-fade-in">
-                {specsList.length > 0 ? (
-                  <div className="border border-gray-200 rounded-md overflow-hidden max-w-3xl">
-                    <table className="w-full text-left text-sm">
-                      <tbody>
-                        {specsList.map((spec, i) => (
-                          <tr key={i} className={`border-b border-gray-200 last:border-0 ${i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
-                            <th className="py-3 px-5 font-bold text-gray-800 w-1/3 sm:w-1/4 border-r border-gray-200">{spec.key}</th>
-                            <td className="py-3 px-5 text-gray-600">{spec.val}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <p className="text-gray-500 italic">No detailed specifications available.</p>
-                )}
-              </div>
-            )}
+
 
             {/* Reviews Tab */}
             {activeTab === 'reviews' && (

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export default function Footer() {
   return (
     <footer className="mt-0 font-sans">
-      
+
       {/* ── CTA Banner: "Have a great idea in mind? lets make it real" ── */}
       <div className="bg-black text-white py-20 px-4 text-center border-b border-neutral-900">
         <div className="max-w-4xl mx-auto">
@@ -28,9 +28,9 @@ export default function Footer() {
       {/* ── Main Footer: Minimalist Black Footer ── */}
       <div className="bg-[#0f0f0f] text-neutral-400 pt-20 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
-          
+
           <div className="grid grid-cols-1 md:grid-cols-6 gap-12 md:gap-8 pb-6">
-            
+
             {/* Column 1: Brand / Logo Column (spans 2) */}
             <div className="md:col-span-2 space-y-6">
               <Link to="/" className="inline-block group">
@@ -57,90 +57,95 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Column 2: Terms & Policies */}
-            <div>
-              <h4 className="text-sm md:text-base font-bold text-white mb-4">
-                Terms & Policies
-              </h4>
-              <ul className="space-y-3 text-xs md:text-sm text-neutral-400 font-light">
-                <li>
-                  <Link to="/products" className="hover:text-white transition duration-300">
-                    Cookie Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/products" className="hover:text-white transition duration-300">
-                    Return Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/products" className="hover:text-white transition duration-300">
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/products" className="hover:text-white transition duration-300">
-                    Terms of Service
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            {/* Columns 2–4: Terms, Quick Links, Contact Us — grouped and shifted left */}
+            <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-8 md:-ml-6">
 
-            {/* Column 3: Site Links */}
-            <div>
-              <h4 className="text-sm md:text-base font-bold text-white mb-4">
-                Quick Links
-              </h4>
-              <ul className="space-y-3 text-xs md:text-sm text-neutral-400 font-light">
-                <li>
-                  <Link to="/" className="hover:text-white transition duration-300">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/contact" className="hover:text-white transition duration-300">
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/products" className="hover:text-white transition duration-300">
-                    Offers
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/products" className="hover:text-white transition duration-300">
-                    About Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
+              {/* Terms & Policies */}
+              <div>
+                <h4 className="text-sm md:text-base font-bold text-white mb-4">
+                  Terms & Policies
+                </h4>
+                <ul className="space-y-3 text-xs md:text-sm text-neutral-400 font-light">
+                  <li>
+                    <Link to="/products" className="hover:text-white transition duration-300">
+                      Cookie Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/products" className="hover:text-white transition duration-300">
+                      Return Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/products" className="hover:text-white transition duration-300">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/products" className="hover:text-white transition duration-300">
+                      Terms of Service
+                    </Link>
+                  </li>
+                </ul>
+              </div>
 
-            {/* Column 4: Contact Us (In the Middle) */}
-            <div className="md:col-span-1">
-              <h4 className="text-sm md:text-base font-bold text-white mb-4">
-                Contact Us
-              </h4>
-              <ul className="space-y-3 text-xs md:text-sm text-neutral-400 leading-relaxed font-light">
-                <li className="flex items-start gap-2.5">
-                  <svg className="w-4 h-4 text-sky-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span>Sayed Nagor, Vatara, Dhaka Bangladesh</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <svg className="w-4 h-4 text-sky-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  <span>+88 01303 897 972  (WhatsApp)</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <svg className="w-4 h-4 text-sky-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  <span>support@roboxpressbd.com</span>
-                </li>
-              </ul>
+              {/* Quick Links */}
+              <div>
+                <h4 className="text-sm md:text-base font-bold text-white mb-4">
+                  Quick Links
+                </h4>
+                <ul className="space-y-3 text-xs md:text-sm text-neutral-400 font-light">
+                  <li>
+                    <Link to="/" className="hover:text-white transition duration-300">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/contact" className="hover:text-white transition duration-300">
+                      Contact
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/products" className="hover:text-white transition duration-300">
+                      Offers
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/products" className="hover:text-white transition duration-300">
+                      About Us
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Contact Us */}
+              <div>
+                <h4 className="text-sm md:text-base font-bold text-white mb-4">
+                  Contact Us
+                </h4>
+                <ul className="space-y-3 text-xs md:text-sm text-neutral-400 leading-relaxed font-light">
+                  <li className="flex items-start gap-2.5">
+                    <svg className="w-4 h-4 text-sky-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span>Sayed Nagor, Vatara, Dhaka Bangladesh</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <svg className="w-4 h-4 text-sky-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    <span>+88 01303 897 972 (WhatsApp)</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <svg className="w-4 h-4 text-sky-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span>support@roboxpressbd.com</span>
+                  </li>
+                </ul>
+              </div>
+
             </div>
 
             {/* Column 5: About Us Paragraph */}
@@ -170,10 +175,10 @@ export default function Footer() {
 
           {/* Social Icons & Copyright */}
           <div className="flex flex-col items-center justify-center pt-2">
-            
+
             {/* Social Icons - Circular Outlines */}
             <div className="flex items-center gap-4 mb-6">
-              
+
               {/* Facebook */}
               <a
                 href="https://facebook.com"
@@ -200,7 +205,7 @@ export default function Footer() {
                 className="w-10 h-10 border border-neutral-700 rounded-full flex items-center justify-center text-neutral-400 hover:text-white hover:border-white transition-all duration-300 hover:scale-105"
               >
                 <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                  <path d="M6.18 15.64a2.18 2.18 0 1 1-2.18-2.18 2.18 2.18 0 0 1 2.18 2.18zM0 0v4.26a19.74 19.74 0 0 1 19.74 19.74H24A24 24 0 0 0 0 0zm0 8.56v4.26a11.18 11.18 0 0 1 11.18 11.18h4.26A15.44 15.44 0 0 0 0 8.56z"/>
+                  <path d="M6.18 15.64a2.18 2.18 0 1 1-2.18-2.18 2.18 2.18 0 0 1 2.18 2.18zM0 0v4.26a19.74 19.74 0 0 1 19.74 19.74H24A24 24 0 0 0 0 0zm0 8.56v4.26a11.18 11.18 0 0 1 11.18 11.18h4.26A15.44 15.44 0 0 0 0 8.56z" />
                 </svg>
               </a>
 
